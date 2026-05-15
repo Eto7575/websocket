@@ -11,6 +11,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Remove existing Node.js from PATH
+        run: |
+          echo "PATH before removal:"
+          echo $PATH
+          # Node.js binary klasörünü geçici olarak çıkar (varsayılan olarak /opt/hostedtoolcache/node)
+          export PATH="$(echo $PATH | tr ':' '\n' | grep -v '/opt/hostedtoolcache/node' | paste -sd ':' -)"
+          echo "PATH after removal:"
+          echo $PATH
+          which node || echo "Node.js artık PATH'te yok"
+
       - name: Setup Node.js 24
         uses: actions/setup-node@v4
         with:
