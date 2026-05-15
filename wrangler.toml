@@ -1,0 +1,12 @@
+name = "cf-ws-demo"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+[durable_objects]
+bindings = [
+  { name = "CONNECTIONS", class_name = "Connections", script_name = "connections" }
+]
+
+[[migrations]]
+tag = "v1"
+new_classes = ["Connections"]
