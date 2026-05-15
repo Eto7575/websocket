@@ -12,10 +12,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Remove existing Node.js from PATH
+        shell: bash
         run: |
           echo "PATH before removal:"
           echo $PATH
-          # Node.js binary klasörünü geçici olarak çıkar (varsayılan olarak /opt/hostedtoolcache/node)
+          # Node.js binary yolunu PATH'ten çıkar
           export PATH="$(echo $PATH | tr ':' '\n' | grep -v '/opt/hostedtoolcache/node' | paste -sd ':' -)"
           echo "PATH after removal:"
           echo $PATH
