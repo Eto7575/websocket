@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: '24'
 
-      - name: Show Node version (kontrol amaçlı)
+      - name: Show Node version 
         run: node -v
 
       - name: Install wrangler
