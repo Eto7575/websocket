@@ -2,39 +2,32 @@ name: Deploy Cloudflare Worker
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Remove existing Node.js from PATH
-        shell: bash
-        run: |
-          echo "PATH before removal:"
-          echo $PATH
-          # Node.js binary yolunu PATH'ten çıkar
-          export PATH="$(echo $PATH | tr ':' '\n' | grep -v '/opt/hostedtoolcache/node' | paste -sd ':' -)"
-          echo "PATH after removal:"
-          echo $PATH
-          which node || echo "Node.js artık PATH'te yok"
-
-      - name: Setup Node.js 24
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: 22
 
-      - name: Show Node version 
-        run: node -v
-
-      - name: Install wrangler
+      - name: Install Wrangler
         run: npm install -g wrangler
 
-      - name: Publish to Cloudflare
+      - name: Show versions
+        run: |
+          node -v
+          npm -v
+          wrangler --version
+
+      - name: Deploy to Cloudflare
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: wrangler deploy
-        
